@@ -1,0 +1,90 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum JobStage {
+  SAVED
+  APPLIED
+  PHONE_SCREEN
+  INTERVIEW
+  OFFER
+  REJECTED
+}
+
+enum InterviewType {
+  PHONE_SCREEN
+  VIDEO_CALL
+  ON_SITE
+  TECHNICAL
+  BEHAVIORAL
+  FINAL_ROUND
+}
+
+model Job {
+  id             String    @id @default(cuid())
+  title          String
+  company        String
+  location       String?
+  applicationDate DateTime @default(now())
+  jobUrl         String?
+  resumeUsed     String?
+  notes          String?
+  currentStage   JobStage @default(SAVED)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  // Relationships
+  contacts       Contact[]
+  interviews     Interview[]
+
+  @@map("jobs")
+}
+
+model Contact {
+  id       String  @id @default(cuid())
+  name     String
+  role     String? // e.g., recruiter, interviewer, hiring manager
+  email    String?
+  phone    String?
+  linkedin String?
+  notes    String?
+  
+  // Foreign key
+  jobId    String
+  job      Job     @relation(fields: [jobId], references: [id], onDelete: Cascade)
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("contacts")
+}
+
+model Interview {
+  id           String        @id @default(cuid())
+  type         InterviewType
+  scheduledAt  DateTime
+  notes        String?
+  questionsAsked String?
+  feedback     String?
+  
+  // Foreign key
+  jobId        String
+  job          Job           @relation(fields: [jobId], references: [id], onDelete: Cascade)
+  
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+
+  @@map("interviews")
+}
