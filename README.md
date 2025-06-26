@@ -21,8 +21,6 @@ A modern, feature-rich dashboard built with Next.js and Express to help track an
 
 - **👥 Contact Tracking**
   - Store recruiter and interviewer details
-  - Maintain communication history
-  - LinkedIn profile integration
   - Notes and follow-up tracking
 
 - **📅 Interview Management**
