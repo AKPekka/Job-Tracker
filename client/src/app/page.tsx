@@ -755,10 +755,10 @@ export default function Home() {
         <Flex justify="space-between" align="center" mb={8}>
           <VStack align="start" gap={1}>
             <Heading size="2xl" color="gray.800" _dark={{ color: "white" }}>
-              Job Tracker Pro
+              AKP's Job Tracker
             </Heading>
             <Text color="gray.600" _dark={{ color: "gray.400" }} fontSize="lg">
-              Manage your job applications with precision
+              Personal Job Application Tracker
             </Text>
           </VStack>
           <HStack gap={4}>
